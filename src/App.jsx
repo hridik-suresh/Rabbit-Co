@@ -1,11 +1,13 @@
-
-import './App.css'
+import { Route, Routes } from 'react-router-dom';
+import UserLayout from './components/Layout/UserLayout';
 
 function App() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">Hello Vite + React!</h1>
+      <Routes>
+        <Route path="/" element={<UserLayout />} />
+      </Routes>
     </div>
   );
 }
