@@ -7,7 +7,13 @@ function SearchBar() {
 
   const handleSearchToggle = () => {
     setIsOpen(!isOpen);
-  };
+    };
+    const handleSearchSubmit = (e) => {
+      e.preventDefault();
+        // Handle search submission logic here
+        console.log("Searching for:", searchTerm);
+        setIsOpen(false);
+    };
 
   return (
     <div
@@ -16,7 +22,7 @@ function SearchBar() {
       }`}
     >
       {isOpen ? (
-        <form className=" relative flex items-center justify-center w-full">
+        <form onSubmit={handleSearchSubmit} className=" relative flex items-center justify-center w-full">
           <div className="relative w-1/2">
             <input
               type="text"
