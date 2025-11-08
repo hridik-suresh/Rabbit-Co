@@ -4,6 +4,7 @@ import {
   HiOutlineShoppingBag,
   HiBars3BottomRight,
 } from "react-icons/hi2";
+import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 
 import SearchBar from "./SearchBar";
@@ -11,9 +12,13 @@ import CartDrawer from "../Layout/CartDrawer";
 
 function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [navDrawerOpen, setNavDrawerOpen] = useState(false);
 
   const toggleCartDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
+  };
+  const toggleNavDrawer = () => {
+    setNavDrawerOpen(!navDrawerOpen);
   };
 
   return (
@@ -54,19 +59,38 @@ function Navbar() {
           <Link to="/profile" className="hover:text-black">
             <HiOutlineUser className="size-6 text-gray-700" />
           </Link>
-          <button onClick={toggleCartDrawer} className="relative hover:text-black">
+          <button
+            onClick={toggleCartDrawer}
+            className="relative hover:text-black"
+          >
             <HiOutlineShoppingBag className="size-6 text-gray-700" />
             <span className="absolute -top-1 text-white text-xs rounded-full px-2 py-0.5 bg-[#ea2e0e]">
               4
             </span>
           </button>
-          <SearchBar/>
-          <button className="md:hidden">
+          <SearchBar />
+          <button onClick={toggleNavDrawer} className="md:hidden">
             <HiBars3BottomRight className="size-6 text-gray-700" />
           </button>
         </div>
       </nav>
-      <CartDrawer isDrawerOpen={isDrawerOpen} toggleCartDrawer={toggleCartDrawer} />
+      <CartDrawer
+        isDrawerOpen={isDrawerOpen}
+        toggleCartDrawer={toggleCartDrawer}
+      />
+      {/* {Mobile menu} */}
+
+      <div
+        className={`fixed top-0 left-0 w-3/4 sm:w-1/2 md:w-1/3 h-full bg-white shadow-lg transform transition-transform duration-300 z-50 ${
+          navDrawerOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex justify-end p-4">
+          <button>
+            <IoMdClose onClick={toggleNavDrawer} className="size-6 text-gray-600 "/>
+          </button>
+        </div>
+      </div>
     </>
   );
 }
