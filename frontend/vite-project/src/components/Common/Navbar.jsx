@@ -98,28 +98,28 @@ function Navbar() {
               onClick={toggleNavDrawer}
               className="block text-gray-600 hover:text-black"
             >
-              Men
+              MEN
             </Link>
             <Link
               to="#"
               onClick={toggleNavDrawer}
               className="block text-gray-600 hover:text-black"
             >
-              Women
+              WOMEN
             </Link>
             <Link
               to="#"
               onClick={toggleNavDrawer}
               className="block text-gray-600 hover:text-black"
             >
-              Top Wear
+              TOP WEAR
             </Link>
             <Link
               to="#"
               onClick={toggleNavDrawer}
               className="block text-gray-600 hover:text-black"
             >
-              Bottom Wear
+              BOTTOM WEAR
             </Link>
           </nav>
         </div>
