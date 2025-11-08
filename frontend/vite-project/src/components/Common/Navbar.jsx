@@ -86,9 +86,42 @@ function Navbar() {
         }`}
       >
         <div className="flex justify-end p-4">
-          <button>
-            <IoMdClose onClick={toggleNavDrawer} className="size-6 text-gray-600 "/>
+          <button onClick={toggleNavDrawer}>
+            <IoMdClose className="size-6 text-gray-600 " />
           </button>
+        </div>
+        <div className="p-4">
+          <h2 className="text-xl font-semibold mb-4 ">Menu</h2>
+          <nav className="space-y-4 ">
+            <Link
+              to="#"
+              onClick={toggleNavDrawer}
+              className="block text-gray-600 hover:text-black"
+            >
+              Men
+            </Link>
+            <Link
+              to="#"
+              onClick={toggleNavDrawer}
+              className="block text-gray-600 hover:text-black"
+            >
+              Women
+            </Link>
+            <Link
+              to="#"
+              onClick={toggleNavDrawer}
+              className="block text-gray-600 hover:text-black"
+            >
+              Top Wear
+            </Link>
+            <Link
+              to="#"
+              onClick={toggleNavDrawer}
+              className="block text-gray-600 hover:text-black"
+            >
+              Bottom Wear
+            </Link>
+          </nav>
         </div>
       </div>
     </>
