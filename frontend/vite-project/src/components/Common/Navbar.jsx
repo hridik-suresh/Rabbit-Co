@@ -6,6 +6,7 @@ import {
 } from "react-icons/hi2";
 
 import SearchBar from "./SearchBar";
+import CartDrawer from "../Layout/CartDrawer";
 
 function Navbar() {
   return (
@@ -58,6 +59,7 @@ function Navbar() {
           </button>
         </div>
       </nav>
+      <CartDrawer />
     </>
   );
 }
