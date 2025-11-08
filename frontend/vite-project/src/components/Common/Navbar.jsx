@@ -4,11 +4,18 @@ import {
   HiOutlineShoppingBag,
   HiBars3BottomRight,
 } from "react-icons/hi2";
+import { useState } from "react";
 
 import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
 
 function Navbar() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const toggleCartDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
   return (
     <>
       <nav className="container mx-auto flex items-center justify-between py-4 px-6">
@@ -47,7 +54,7 @@ function Navbar() {
           <Link to="/profile" className="hover:text-black">
             <HiOutlineUser className="size-6 text-gray-700" />
           </Link>
-          <button className="relative hover:text-black">
+          <button onClick={toggleCartDrawer} className="relative hover:text-black">
             <HiOutlineShoppingBag className="size-6 text-gray-700" />
             <span className="absolute -top-1 text-white text-xs rounded-full px-2 py-0.5 bg-[#ea2e0e]">
               4
@@ -59,7 +66,7 @@ function Navbar() {
           </button>
         </div>
       </nav>
-      <CartDrawer />
+      <CartDrawer isDrawerOpen={isDrawerOpen} toggleCartDrawer={toggleCartDrawer} />
     </>
   );
 }

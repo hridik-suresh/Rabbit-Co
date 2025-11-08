@@ -1,12 +1,7 @@
-import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
-function CartDrawer() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const toggleCartDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
+function CartDrawer({ isDrawerOpen, toggleCartDrawer }) {
+  
 
   return (
     <div
