@@ -116,11 +116,16 @@ function NewArrivals() {
       );
     }
   };
+  const handleWheel = (event) => {
+    event.preventDefault();
+    scrollRef.current.scrollLeft += event.deltaY;
+  };
 
   useEffect(() => {
     const container = scrollRef.current;
     if (container) {
       container.addEventListener("scroll", upadateScrollButtons);
+      container.addEventListener("wheel", handleWheel);
     }
   }, []);
 
