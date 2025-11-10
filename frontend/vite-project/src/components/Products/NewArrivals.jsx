@@ -1,7 +1,15 @@
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 function NewArrivals() {
+  const scrollRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+
   const newArrivals = [
     {
       _id: 1,
@@ -93,6 +101,28 @@ function NewArrivals() {
     },
   ];
 
+  const scroll = (direction) => {
+    const container = scrollRef.current;
+    const scrollAmount = direction === "left" ? -500 : 500;
+    container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+  };
+  const upadateScrollButtons = () => {
+    const container = scrollRef.current;
+    if (container) {
+      setCanScrollLeft(container.scrollLeft > 0);
+      setCanScrollRight(
+        container.scrollWidth > container.clientWidth + container.scrollLeft
+      );
+    }
+  };
+
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (container) {
+      container.addEventListener("scroll", upadateScrollButtons);
+    }
+  });
+
   return (
     <section className="px-10">
       <div className="container mx-auto text-center mb-10 relative">
@@ -104,17 +134,26 @@ function NewArrivals() {
 
         {/*scroll btn*/}
         <div className="absolute right-0 bottom-[-30px] flex space-x-2">
-          <button className="p-2 rounded border bg-white text-black">
+          <button
+            onClick={() => scroll("left")}
+            className="p-2 rounded border bg-white text-black"
+          >
             <FiChevronLeft />
           </button>
-          <button className="p-2 rounded border bg-white text-black">
+          <button
+            onClick={() => scroll("right")}
+            className="p-2 rounded border bg-white text-black"
+          >
             <FiChevronRight />
           </button>
         </div>
       </div>
 
       {/*products grid*/}
-      <div className="container mx-auto overflow-x-auto flex space-x-4 relative">
+      <div
+        ref={scrollRef}
+        className="container mx-auto overflow-x-auto flex space-x-4 relative"
+      >
         {newArrivals.map((product) => (
           <div
             key={product._id}
