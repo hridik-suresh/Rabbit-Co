@@ -110,8 +110,9 @@ function NewArrivals() {
     const container = scrollRef.current;
     if (container) {
       setCanScrollLeft(container.scrollLeft > 0);
+      const tollerance = 1; // Small tolerance to account for floating point precision
       setCanScrollRight(
-        container.scrollWidth > container.clientWidth + container.scrollLeft
+        container.scrollWidth > container.clientWidth + container.scrollLeft + tollerance
       );
     }
   };
@@ -121,7 +122,7 @@ function NewArrivals() {
     if (container) {
       container.addEventListener("scroll", upadateScrollButtons);
     }
-  });
+  }, []);
 
   return (
     <section className="px-10">
@@ -136,13 +137,23 @@ function NewArrivals() {
         <div className="absolute right-0 bottom-[-30px] flex space-x-2">
           <button
             onClick={() => scroll("left")}
-            className="p-2 rounded border bg-white text-black"
+            disabled={!canScrollLeft}
+            className={`p-2 rounded border ${
+              canScrollLeft
+                ? "bg-white text-black"
+                : "bg-gray-200 text-gray-400"
+            }`}
           >
             <FiChevronLeft />
           </button>
           <button
             onClick={() => scroll("right")}
-            className="p-2 rounded border bg-white text-black"
+            disabled={!canScrollRight}
+            className={`p-2 rounded border ${
+              canScrollRight
+                ? "bg-white text-black"
+                : "bg-gray-200 text-gray-400"
+            }`}
           >
             <FiChevronRight />
           </button>
