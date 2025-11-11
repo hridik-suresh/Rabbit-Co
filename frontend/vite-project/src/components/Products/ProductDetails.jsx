@@ -1,25 +1,39 @@
+import { useState, useEffect } from "react";
+
+const selectedProduct = {
+  name: "Jacket",
+  currentPrice: "$99.99",
+  originalPrice: "$149.99",
+  description:
+    "This is a stylish and comfortable jacket perfect for all seasons.",
+  brand: "FashionCo",
+  material: "100% Cotton",
+  sizes: ["S", "M", "L", "XL"],
+  colors: ["Red", "Blue", "Green"],
+  images: [
+    {
+      url: "https://picsum.photos/500/500?random=10",
+      alt: "Jacket Image 1",
+    },
+    {
+      url: "https://picsum.photos/500/500?random=11",
+      alt: "Jacket Image 2",
+    },
+  ],
+};
+
 function ProductDetails() {
-  const selectedProduct = {
-    name: "Jacket",
-    currentPrice: "$99.99",
-    originalPrice: "$149.99",
-    description:
-      "This is a stylish and comfortable jacket perfect for all seasons.",
-    brand: "FashionCo",
-    material: "100% Cotton",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Red", "Blue", "Green"],
-    images: [
-      {
-        url: "https://picsum.photos/500/500?random=10",
-        alt: "Jacket Image 1",
-      },
-      {
-        url: "https://picsum.photos/500/500?random=11",
-        alt: "Jacket Image 2",
-      },
-    ],
-  };
+    const [mainImage, setMainImage] = useState(selectedProduct.images[0].url);
+    
+    
+
+  useEffect(() => {
+    if (selectedProduct.images.length > 0) {
+      setMainImage(selectedProduct.images[0].url);
+    }
+  }, []);
+
+  
 
   return (
     <div className="p-6">
@@ -32,14 +46,15 @@ function ProductDetails() {
                 key={index}
                 src={image.url}
                 alt={image.alt}
-                className="w-20 h-20 object-cover rounded-md cursor-pointer border"
+                onClick={() => setMainImage(image.url)}
+                className={`w-20 h-20 object-cover rounded-md cursor-pointer border ${mainImage === image.url ? "border-black" : "border-transparent"}`}
               />
             ))}
           </div>
           {/*Main Image*/}
           <div className="md:w-1/2">
             <img
-              src={selectedProduct.images[0].url}
+              src={mainImage}
               alt={selectedProduct.images[0].alt}
               className="w-full h-auto object-cover rounded-lg"
             />
@@ -104,26 +119,26 @@ function ProductDetails() {
                   +
                 </button>
               </div>
-                      </div>
-                      <button className="bg-black text-white px-4 py-2 rounded">
-                        Add to Cart
-                      </button>
+            </div>
+            <button className="bg-black text-white px-4 py-2 rounded">
+              Add to Cart
+            </button>
 
-                      <div className="mt-10 text-gray-700">
-                          <h3 className="font-semibold mb-2">Product Details:</h3>
-                          <table className="w-full text-left text-sm text-gray-600">
-                            <tbody>
-                              <tr>
-                                <td className="py-2 font-medium">Brand</td>
-                                <td className="py-2">{selectedProduct.brand}</td>
-                              </tr>
-                              <tr>
-                                <td className="py-2 font-medium">Material</td>
-                                <td className="py-2">{selectedProduct.material}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                      </div>
+            <div className="mt-10 text-gray-700">
+              <h3 className="font-semibold mb-2">Product Details:</h3>
+              <table className="w-full text-left text-sm text-gray-600">
+                <tbody>
+                  <tr>
+                    <td className="py-2 font-medium">Brand</td>
+                    <td className="py-2">{selectedProduct.brand}</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 font-medium">Material</td>
+                    <td className="py-2">{selectedProduct.material}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
