@@ -65,8 +65,9 @@ function ProductDetails() {
               <img
                 key={index}
                 src={image.url}
-                alt={image.alt}
-                className="w-20 h-20 object-cover rounded-md cursor-pointer border"
+                    alt={image.alt}
+                onClick={() => setMainImage(image.url)}
+                className={`w-20 h-20 object-cover rounded-md cursor-pointer border ${mainImage === image.url ? "border-black" : "border-transparent"}`}
               />
             ))}
           </div>
