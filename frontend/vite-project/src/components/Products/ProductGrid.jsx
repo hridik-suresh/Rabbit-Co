@@ -12,7 +12,7 @@ function ProductGrid({ products }) {
                 alt={product.image[0].alt}
                 className="w-full h-full object-cover rounded-lg"
               />
-                  </div>
+            </div>
             <h3 className="text-lg font-medium mb-2">{product.name}</h3>
             <p className="text-gray-700">{product.price}</p>
           </div>
