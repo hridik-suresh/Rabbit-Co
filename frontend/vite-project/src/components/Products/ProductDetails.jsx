@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 
 const selectedProduct = {
   name: "Jacket",
@@ -23,6 +24,40 @@ const selectedProduct = {
   ],
 };
 
+const similarProducts = [
+  {
+    _id: 7,
+    name: "Product 7",
+    image: [
+      { url: "https://picsum.photos/500/500?random=7", alt: "Product 7 Image" },
+    ],
+    price: "$59.99",
+  },
+  {
+    _id: 8,
+    name: "Product 8",
+    image: [
+      { url: "https://picsum.photos/500/500?random=8", alt: "Product 8 Image" },
+    ],
+    price: "$69.99",
+  },
+  {
+    _id: 9,
+    name: "Product 9",
+    image: [
+      { url: "https://picsum.photos/500/500?random=9", alt: "Product 9 Image" },
+    ],
+    price: "$79.99",
+  },
+  {    _id: 10,
+    name: "Product 10",
+    image: [
+      { url: "https://picsum.photos/500/500?random=10", alt: "Product 10 Image" },
+    ],
+    price: "$89.99",
+  },
+];
+
 function ProductDetails() {
   const [mainImage, setMainImage] = useState(selectedProduct.images[0].url);
   const [selectedSize, setSelectedSize] = useState("");
@@ -35,21 +70,21 @@ function ProductDetails() {
       setMainImage(selectedProduct.images[0].url);
     }
   }, []);
-    
-    const handleAddToCart = () => {
-        if (!selectedSize || !selectedColor) {
-            toast.error("Please select size and color", {duration: 1000});
-            return;
-        }
 
-        // Simulate adding to cart
-        setIsButtonDisabled(true);
-        
-        setTimeout(() => {
-            setIsButtonDisabled(false);
-            toast.success("Product added to cart!", {duration: 1000});
-        }, 500);
-    };
+  const handleAddToCart = () => {
+    if (!selectedSize || !selectedColor) {
+      toast.error("Please select size and color", { duration: 1000 });
+      return;
+    }
+
+    // Simulate adding to cart
+    setIsButtonDisabled(true);
+
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+      toast.success("Product added to cart!", { duration: 1000 });
+    }, 500);
+  };
 
   return (
     <div className="p-6">
@@ -161,9 +196,11 @@ function ProductDetails() {
               </div>
             </div>
             <button
-                          onClick={handleAddToCart}
-                disabled={isButtonDisabled}
-              className={`bg-black text-white px-4 py-2 rounded mb-4 w-full ${isButtonDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+              onClick={handleAddToCart}
+              disabled={isButtonDisabled}
+              className={`bg-black text-white px-4 py-2 rounded mb-4 w-full ${
+                isButtonDisabled ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
               {isButtonDisabled ? "Adding..." : "ADD TO CART"}
             </button>
@@ -184,6 +221,12 @@ function ProductDetails() {
               </table>
             </div>
           </div>
+        </div>
+        <div className="mt-16">
+          <h2 className="text-3xl text-center font-bold mb-4">
+            You May Also Like
+          </h2>
+          <ProductGrid products={similarProducts} />
         </div>
       </div>
     </div>
