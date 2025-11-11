@@ -4,9 +4,9 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 function NewArrivals() {
   const scrollRef = useRef(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(false);
+  // const [isDragging, setIsDragging] = useState(false);
+  // const [startX, setStartX] = useState(0);
+  // const [scrollLeft, setScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
 
@@ -130,7 +130,7 @@ function NewArrivals() {
   }, []);
 
   return (
-    <section className="px-10">
+    <section className="py-16 px-10">
       <div className="container mx-auto text-center mb-10 relative">
         <h2 className="text-3xl font-bold mb-4">New Arrivals</h2>
         <p className="text-lg text-gray-600 mb-8">

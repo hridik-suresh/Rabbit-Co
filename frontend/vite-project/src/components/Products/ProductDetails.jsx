@@ -1,0 +1,134 @@
+function ProductDetails() {
+  const selectedProduct = {
+    name: "Jacket",
+    currentPrice: "$99.99",
+    originalPrice: "$149.99",
+    description:
+      "This is a stylish and comfortable jacket perfect for all seasons.",
+    brand: "FashionCo",
+    material: "100% Cotton",
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Red", "Blue", "Green"],
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=10",
+        alt: "Jacket Image 1",
+      },
+      {
+        url: "https://picsum.photos/500/500?random=11",
+        alt: "Jacket Image 2",
+      },
+    ],
+  };
+
+  return (
+    <div className="p-6">
+      <div className="max-w-6xl mx-auto bg-white p-8 rounded-lg">
+        <div className="flex flex-col md:flex-row">
+          {/*Left Tumbnails*/}
+          <div className="hidden md:flex flex-col space-y-4 mr-6">
+            {selectedProduct.images.map((image, index) => (
+              <img
+                key={index}
+                src={image.url}
+                alt={image.alt}
+                className="w-20 h-20 object-cover rounded-md cursor-pointer border"
+              />
+            ))}
+          </div>
+          {/*Main Image*/}
+          <div className="md:w-1/2">
+            <img
+              src={selectedProduct.images[0].url}
+              alt={selectedProduct.images[0].alt}
+              className="w-full h-auto object-cover rounded-lg"
+            />
+          </div>
+          {/*mobile Thumbnails*/}
+          <div className="flex md:hidden space-x-4 mt-4 overflow-x-scroll">
+            {selectedProduct.images.map((image, index) => (
+              <img
+                key={index}
+                src={image.url}
+                alt={image.alt}
+                className="w-20 h-20 object-cover rounded-md cursor-pointer border"
+              />
+            ))}
+          </div>
+          {/*Product Info*/}
+          <div className="md:w-1/2 md:ml-10">
+            <h1 className="text-2xl md:text-3xl font-semibold mb-2">
+              {selectedProduct.name}
+            </h1>
+            <p className="text-lg text-gray-600 mb-1 line-through">
+              {selectedProduct.originalPrice && selectedProduct.originalPrice}
+            </p>
+            <p className="text-xl font-semibold text-red-600 mb-2">
+              {selectedProduct.currentPrice}
+            </p>
+            <p className="text-gray-700 mb-4">{selectedProduct.description}</p>
+            <div className="mb-4">
+              <p className="text-gray-700">Color:</p>
+              <div className="flex gap-2 mt-2">
+                {selectedProduct.colors.map((color) => (
+                  <button
+                    key={color}
+                    className="w-6 h-6 rounded-full"
+                    style={{
+                      backgroundColor: color.toLowerCase(),
+                      filter: "brightness(0.8)",
+                    }}
+                  ></button>
+                ))}
+              </div>
+            </div>
+            <div className="mb-4">
+              <p className="text-gray-700">Size:</p>
+              <div className="flex gap-2 mt-2">
+                {selectedProduct.sizes.map((size) => (
+                  <button key={size} className="mr-2 px-3 py-1 border rounded">
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <p className="text-gray-700">Quantity:</p>
+              <div className="flex items-center space-x-4 mt-2">
+                <button className="px-2 py-1 bg-gray-200 rounded text-lg">
+                  -
+                </button>
+                <span className="text-lg">1</span>
+                <button className="px-2 py-1 bg-gray-200 rounded text-lg">
+                  +
+                </button>
+              </div>
+                      </div>
+                      <button className="bg-black text-white px-4 py-2 rounded">
+                        Add to Cart
+                      </button>
+
+                      <div className="mt-10 text-gray-700">
+                          <h3 className="font-semibold mb-2">Product Details:</h3>
+                          <table className="w-full text-left text-sm text-gray-600">
+                            <tbody>
+                              <tr>
+                                <td className="py-2 font-medium">Brand</td>
+                                <td className="py-2">{selectedProduct.brand}</td>
+                              </tr>
+                              <tr>
+                                <td className="py-2 font-medium">Material</td>
+                                <td className="py-2">{selectedProduct.material}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ProductDetails;
