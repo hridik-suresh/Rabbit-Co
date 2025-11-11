@@ -4,6 +4,7 @@ import NewArrivals from "../components/Products/NewArrivals";
 import ProductDetails from "../components/Products/ProductDetails";
 import ProductGrid from "../components/Products/ProductGrid";
 import FeaturedCollection from "../components/Products/FeaturedCollection";
+import FeaturedSection from "../components/Products/FeaturedSection";
 
 const placeholderProducts = [
   {
@@ -84,6 +85,7 @@ function Home() {
       </div>
 
       <FeaturedCollection /> 
+      <FeaturedSection />
     </div>
   );
 }
