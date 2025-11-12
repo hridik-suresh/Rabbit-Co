@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import UserLayout from './components/Layout/UserLayout';
 import {Toaster} from "sonner"
 import Home from './pages/Home.jsx';
+import Login from './pages/Login.jsx';
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<UserLayout />} >
           <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </div>
