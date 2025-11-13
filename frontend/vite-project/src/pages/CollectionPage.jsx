@@ -19,12 +19,14 @@ function CollectionPage() {
   }
 
   useEffect(() => {
-    //Add event listener for clicks
+    // Add event listener for clicks when the component mounts
     document.addEventListener("mousedown", handleClickOutside);
 
-    //Remove event listener for click
-    document.removeEventListener("mousedown", handleClickOutside);
-  });
+    // Remove event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
