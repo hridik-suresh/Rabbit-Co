@@ -67,7 +67,7 @@ function FilterSidebar() {
 
     const handleFilterChange = (e) => {
         const { name, value, checked, type } = e.target;
-
+        console.log({ name, value, checked, type });
     }
     
   return (
@@ -108,21 +108,21 @@ function FilterSidebar() {
         ))}
       </div>
 
-      {/*color Filter */}
+      {/*color filters*/}
       <div className="mb-6">
-        <label className="block text-gray-600 font-medium mb-2">color</label>
-        {colors.map((color) => (
-          <div key={color} className="flex items-center mb-1">
-            <input
-              type="radio"
+        <label className="block text-gray-600 font-medium mb-2">Color</label>
+        <div className="flex flex-wrap gap-2">
+          {colors.map((color) => (
+            <button
+              key={color}
               name="color"
               value={color}
               onChange={handleFilterChange}
-              className="mr-2 size-4 text-blue-500 focus:ring-blue-400 border-gray-300"
-            />
-            <span className="text-gray-700">{color}</span>
-          </div>
-        ))}
+              className="size-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105"
+              style={{ backgroundColor: color.toLocaleLowerCase() }}
+            ></button>
+          ))}
+        </div>
       </div>
 
       {/*Size Filter*/}
@@ -133,6 +133,8 @@ function FilterSidebar() {
             <input
               type="checkbox"
               name="size"
+              value={size}
+              onChange={handleFilterChange}
               className="mr-2 size-4 text-blue-500 focus:ring-blue-400 border-green-300"
             />
             <span className="text-gray-700">{size}</span>
@@ -148,6 +150,8 @@ function FilterSidebar() {
             <input
               type="checkbox"
               name="material"
+              value={material}
+              onChange={handleFilterChange}
               className="mr-2 material-4 text-blue-500 focus:ring-blue-400 border-green-300"
             />
             <span className="text-gray-700">{material}</span>
@@ -163,6 +167,8 @@ function FilterSidebar() {
             <input
               type="checkbox"
               name="brand"
+              value={brand}
+              onChange={handleFilterChange}
               className="mr-2 brand-4 text-blue-500 focus:ring-blue-400 border-green-300"
             />
             <span className="text-gray-700">{brand}</span>
