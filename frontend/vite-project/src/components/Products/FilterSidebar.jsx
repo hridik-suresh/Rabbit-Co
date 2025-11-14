@@ -65,6 +65,11 @@ function FilterSidebar() {
     setPriceRange([100, params.maxPrice || 1000]);
   }, [searchParams]);
 
+    const handleFilterChange = (e) => {
+        const { name, value, checked, type } = e.target;
+
+    }
+    
   return (
     <div className="p-4">
       <h3 className="text-xl font-medium text-gray-800 mb-4">Filter</h3>
@@ -77,6 +82,8 @@ function FilterSidebar() {
             <input
               type="radio"
               name="category"
+              value={category}
+              onChange={handleFilterChange}
               className="mr-2 size-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{category}</span>
@@ -92,6 +99,8 @@ function FilterSidebar() {
             <input
               type="radio"
               name="gender"
+              value={gender}
+              onChange={handleFilterChange}
               className="mr-2 size-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{gender}</span>
@@ -107,26 +116,13 @@ function FilterSidebar() {
             <input
               type="radio"
               name="color"
+              value={color}
+              onChange={handleFilterChange}
               className="mr-2 size-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{color}</span>
           </div>
         ))}
-      </div>
-
-      {/*color filters*/}
-      <div className="mb-6">
-        <label className="block text-gray-600 font-medium mb-2">Color</label>
-        <div className="flex flex-wrap gap-2">
-          {colors.map((color) => (
-            <button
-              key={color}
-              name="color"
-              className="size-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105"
-              style={{ backgroundColor: color.toLocaleLowerCase() }}
-            ></button>
-          ))}
-        </div>
       </div>
 
       {/*Size Filter*/}
@@ -159,21 +155,6 @@ function FilterSidebar() {
         ))}
       </div>
 
-      {/*Size Filter*/}
-      <div className="mb-6">
-        <label className="block text-gray-600 font-medium mb-2">Size</label>
-        {sizes.map((size) => (
-          <div key={size} className="flex items-center mb-1">
-            <input
-              type="checkbox"
-              name="size"
-              className="mr-2 size-4 text-blue-500 focus:ring-blue-400 border-green-300"
-            />
-            <span className="text-gray-700">{size}</span>
-          </div>
-        ))}
-      </div>
-
       {/*brand Filter*/}
       <div className="mb-6">
         <label className="block text-gray-600 font-medium mb-2">brand</label>
@@ -200,11 +181,11 @@ function FilterSidebar() {
           min={100}
           max={1000}
           className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
-              />
-              <div className="flex justify-between text-gray-600 mt-2">
-                  <span>$100</span>
-                  <span>${priceRange[1]}</span>
-              </div>
+        />
+        <div className="flex justify-between text-gray-600 mt-2">
+          <span>$100</span>
+          <span>${priceRange[1]}</span>
+        </div>
       </div>
     </div>
   );
