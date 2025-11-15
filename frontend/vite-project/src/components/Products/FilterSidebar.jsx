@@ -52,7 +52,7 @@ function FilterSidebar() {
   useEffect(() => {
     const params = Object.fromEntries([...searchParams]);
     setFilters({
-      category: params.categorie || "",
+      category: params.category || "",
       gender: params.gender || "",
       color: params.color || "",
       size: params.size ? params.size.split(",") : [],
@@ -65,11 +65,23 @@ function FilterSidebar() {
     setPriceRange([100, params.maxPrice || 1000]);
   }, [searchParams]);
 
-    const handleFilterChange = (e) => {
-        const { name, value, checked, type } = e.target;
-        console.log({ name, value, checked, type });
+  const handleFilterChange = (e) => {
+    const { name, value, checked, type } = e.target;
+    let newFilters = { ...filters };
+
+    if (type == "checkbox") {
+      if (checked) {
+        newFilters[name] = [...FilterSidebar(newFilters[name] || [], value)];
+      } else {
+        newFilters[name] = newFilters[name].filter((item) => item !== value);
+      }
+    } else {
+      newFilters[name] = value;
     }
-    
+
+    setFilters(newFilters);
+  };
+
   return (
     <div className="p-4">
       <h3 className="text-xl font-medium text-gray-800 mb-4">Filter</h3>
@@ -117,7 +129,7 @@ function FilterSidebar() {
               key={color}
               name="color"
               value={color}
-              onChange={handleFilterChange}
+              onClick={handleFilterChange}
               className="size-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105"
               style={{ backgroundColor: color.toLocaleLowerCase() }}
             ></button>
