@@ -49,10 +49,14 @@ const similarProducts = [
     ],
     price: "$79.99",
   },
-  {    _id: 10,
+  {
+    _id: 10,
     name: "Product 10",
     image: [
-      { url: "https://picsum.photos/500/500?random=10", alt: "Product 10 Image" },
+      {
+        url: "https://picsum.photos/500/500?random=10",
+        alt: "Product 10 Image",
+      },
     ],
     price: "$89.99",
   },

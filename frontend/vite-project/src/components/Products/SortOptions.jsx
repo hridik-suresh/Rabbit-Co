@@ -1,6 +1,3 @@
-
-
-
 function SortOptions(){
     return (
         <div>Sort options</div>

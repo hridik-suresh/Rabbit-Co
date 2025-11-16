@@ -19,7 +19,7 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="profile" element={<Profile />} />
           <Route path="collections/:collection" element={<CollectionPage />} />
-          <Route path="products/:id" element={<ProductDetails/> } />
+          <Route path="products/:id" element={<ProductDetails />} />
         </Route>
       </Routes>
     </div>
