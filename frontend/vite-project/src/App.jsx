@@ -7,6 +7,7 @@ import Register from "./pages/Register.jsx";
 import Profile from "./pages/Profile.jsx";
 import CollectionPage from "./pages/CollectionPage.jsx";
 import ProductDetails from "./components/Products/ProductDetails.jsx";
+import Checkout from "./components/Cart/Checkout.jsx";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="collections/:collection" element={<CollectionPage />} />
           <Route path="products/:id" element={<ProductDetails />} />
+          <Route path="checkout" element={<Checkout/> } />
         </Route>
       </Routes>
     </div>
