@@ -34,12 +34,17 @@ function Checkout() {
     phone: "",
   });
 
+  const handleCreateCheckout = (e) => {
+    e.preventDefault();
+    setCheckoutId(123);
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6">
       {/* {Left Section} */}
       <div className="bg-white rounded-lg p-6">
         <h2 className="text-2xl uppercase mb-6">Checkout</h2>
-        <form>
+        <form onSubmit={handleCreateCheckout}>
           <h3 className="text-lg mb-4">Contact Details</h3>
           <div className="mb-4">
             <label className="block text-gray-700">Email</label>
@@ -60,7 +65,7 @@ function Checkout() {
                 onChange={(e) =>
                   setShippingAddress({
                     ...shippingAddress,
-                    firtsName: e.target.value,
+                    firstName: e.target.value,
                   })
                 }
                 className="w-full p-2 border rounded"
