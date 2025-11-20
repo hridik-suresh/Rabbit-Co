@@ -9,6 +9,7 @@ import CollectionPage from "./pages/CollectionPage.jsx";
 import ProductDetails from "./components/Products/ProductDetails.jsx";
 import Checkout from "./components/Cart/Checkout.jsx";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage.jsx";
+import OderDetailsPage from "./pages/OrderDetailsPage.jsx";
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
           <Route path="collections/:collection" element={<CollectionPage />} />
           <Route path="products/:id" element={<ProductDetails />} />
           <Route path="checkout" element={<Checkout />} />
-          <Route path="order-confirmation" element={<OrderConfirmationPage/>}/>
+          <Route path="order-confirmation" element={<OrderConfirmationPage />} />
+          <Route path="order/:id" element={<OderDetailsPage/>} />
         </Route>
       </Routes>
     </div>
