@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MyOrderPage() {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const mockOrders = [
@@ -35,6 +37,10 @@ function MyOrderPage() {
     setOrders(mockOrders);
   }, []); // Empty dependency array means this runs once on mount
 
+  const handleRowClick = (orderId) => {
+    navigate(`/order/${orderId}`);
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
       <h2 className="text-xl sm:text-2xl font-bold mb-6">My Orders</h2>
@@ -53,7 +59,11 @@ function MyOrderPage() {
           <tbody>
             {orders.map((order) => (
               // Key prop is correctly placed here
-              <tr key={order.id} className="border-b">
+              <tr
+                key={order.id}
+                onClick={() => handleRowClick(order._id)}
+                className="border-b hover:border-gray-50 cursor-pointer"
+              >
                 <td className="px-6 py-4 flex items-center space-x-4">
                   <img
                     src={order.orderItems[0].image}
