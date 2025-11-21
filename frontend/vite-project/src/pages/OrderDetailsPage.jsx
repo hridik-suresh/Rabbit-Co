@@ -127,7 +127,7 @@ function OderDetailsPage() {
             </table>
           </div>
           {/* Back to Order link */}
-          <Link to="my-orders" className="text-blue-500 hover:underline">
+          <Link to="/my-orders" className="text-blue-500 hover:underline">
             Back to My Orders
           </Link>
         </div>

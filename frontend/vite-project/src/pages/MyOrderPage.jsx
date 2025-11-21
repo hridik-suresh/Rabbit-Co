@@ -7,6 +7,7 @@ function MyOrderPage() {
     const mockOrders = [
       {
         id: 1,
+        // Added quotes around the date strings
         createdAt: "2024-01-15",
         shippingAddress: { city: "New York", country: "USA" },
         orderItems: [{ name: "Product A", image: "https://picsum.photos/200" }],
@@ -30,8 +31,9 @@ function MyOrderPage() {
         isPaid: true,
       },
     ];
+
     setOrders(mockOrders);
-  }, []);
+  }, []); // Empty dependency array means this runs once on mount
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
@@ -50,11 +52,13 @@ function MyOrderPage() {
           </thead>
           <tbody>
             {orders.map((order) => (
+              // Key prop is correctly placed here
               <tr key={order.id} className="border-b">
                 <td className="px-6 py-4 flex items-center space-x-4">
                   <img
                     src={order.orderItems[0].image}
-                    alt={order.orderItems[0].name}
+                    // Added more descriptive alt text
+                    alt={`Image for ${order.orderItems[0].name}`}
                     className="w-12 h-12 object-cover rounded"
                   />
                   <div>
@@ -65,12 +69,14 @@ function MyOrderPage() {
                   </div>
                 </td>
                 <td className="px-6 py-4">{order.id}</td>
+                {/* A real app might use a library to format this date string nicely */}
                 <td className="px-6 py-4">{order.createdAt}</td>
                 <td className="px-6 py-4">
                   {order.shippingAddress.city}, {order.shippingAddress.country}
                 </td>
                 <td className="px-6 py-4">${order.totalPrice.toFixed(2)}</td>
                 <td className="px-6 py-4">
+                  {/* Styling the status would be a good addition */}
                   {order.isPaid ? "Paid" : "Pending"}
                 </td>
               </tr>
