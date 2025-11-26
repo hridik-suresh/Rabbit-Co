@@ -11,6 +11,7 @@ import Checkout from "./components/Cart/Checkout.jsx";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage.jsx";
 import OderDetailsPage from "./pages/OrderDetailsPage.jsx";
 import MyOrderPage from "./pages/MyOrderPage.jsx";
+import AdminLayout from "./components/Admin/AdminLayout.jsx";
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
           />
           <Route path="order/:id" element={<OderDetailsPage />} />
           <Route path="/my-orders" element={<MyOrderPage />} />
+        </Route>
+        <Route path="/admin" element={<AdminLayout />}>
+          {/* admin */}
         </Route>
       </Routes>
     </div>
