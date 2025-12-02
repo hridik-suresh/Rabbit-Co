@@ -33,9 +33,10 @@ function App() {
           <Route path="order/:id" element={<OderDetailsPage />} />
           <Route path="/my-orders" element={<MyOrderPage />} />
         </Route>
-        <Route path="/admin" element={<AdminLayout />}>
-          {/* admin */}
-        </Route>
+
+        {/* admin */}
+
+        <Route path="/admin" element={<AdminLayout />}></Route>
       </Routes>
     </div>
   );

@@ -1,37 +1,74 @@
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import {
+  FaBoxOpen,
+  FaClipboardList,
+  FaSignOutAlt,
+  FaStore,
+  FaUser,
+} from "react-icons/fa";
+
 const AdminSidebar = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    navigate("/");
+  };
   return (
-    <div className="w-64 h-full bg-gray-900 text-white flex flex-col">
-      <div className="p-4 border-b border-gray-700">
-        <h2 className="text-2xl font-semibold">Admin Panel</h2>
+    <div className="p-6">
+      <div className="mb-6">
+        <Link to="/admin" className="text-2xl font-semibold">
+          Rabbit
+        </Link>
       </div>
-      <nav className="flex-1 p-4">
-        <ul className="space-y-4">
-          <li>
-            <a
-              href="/admin/dashboard"
-              className="block hover:bg-gray-700 p-2 rounded"
-            >
-              Dashboard
-            </a>
-          </li>
-          <li>
-            <a
-              href="/admin/products"
-              className="block hover:bg-gray-700 p-2 rounded"
-            >
-              Products
-            </a>
-          </li>
-          <li>
-            <a
-              href="/admin/orders"
-              className="block hover:bg-gray-700 p-2 rounded"
-            >
-              Orders
-            </a>
-          </li>
-        </ul>
+      <nav className="flex flex-col space-y-2">
+        <NavLink
+          to="/admin/users"
+          className={({ isActive }) =>
+            isActive
+              ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
+              : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+          }
+        >
+          <FaUser /> <span>Users</span>
+        </NavLink>
+        <NavLink
+          to="/admin/products"
+          className={({ isActive }) =>
+            isActive
+              ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
+              : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+          }
+        >
+          <FaBoxOpen /> <span>Products</span>
+        </NavLink>
+        <NavLink
+          to="/admin/orders"
+          className={({ isActive }) =>
+            isActive
+              ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
+              : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+          }
+        >
+          <FaClipboardList /> <span>Orders</span>
+        </NavLink>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
+              : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+          }
+        >
+          <FaStore /> <span>Shop</span>
+        </NavLink>
       </nav>
+      <div className="mt-6">
+        <button
+          onClick={handleLogout}
+          className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded flex items-center justify-center space-x-2"
+        >
+          <FaSignOutAlt /> <span>Logout</span>
+        </button>
+      </div>
     </div>
   );
 };
