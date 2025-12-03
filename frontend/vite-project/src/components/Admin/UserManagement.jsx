@@ -131,32 +131,40 @@ const UserManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <tr key={index} className="border-t">
-                <td className="py-3 px-4 whitespace-nowrap">{user.name}</td>
-                <td className="py-3 px-4">{user.email}</td>
-                <td className="py-3 px-4">
-                  <select
-                    value={user.role}
-                    onChange={(e) => {
-                      handleRoleChange(user._id, e.target.value);
-                    }}
-                    className="p-2 border rounded"
-                  >
-                    <option value="admin">Admin</option>
-                    <option value="customer">Customer</option>
-                  </select>
-                </td>
-                <td className="py-3 px-4">
-                  <button
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    onClick={() => handleDelete(user._id)}
-                  >
-                    Delete
-                  </button>
+            {users.length > 0 ? (
+              users.map((user, index) => (
+                <tr key={index} className="border-t">
+                  <td className="py-3 px-4 whitespace-nowrap">{user.name}</td>
+                  <td className="py-3 px-4">{user.email}</td>
+                  <td className="py-3 px-4">
+                    <select
+                      value={user.role}
+                      onChange={(e) => {
+                        handleRoleChange(user._id, e.target.value);
+                      }}
+                      className="p-2 border rounded"
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="customer">Customer</option>
+                    </select>
+                  </td>
+                  <td className="py-3 px-4">
+                    <button
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                      onClick={() => handleDelete(user._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="text-center py-4 px-6">
+                  No users found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
