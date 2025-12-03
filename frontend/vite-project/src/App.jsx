@@ -15,6 +15,7 @@ import AdminLayout from "./components/Admin/AdminLayout.jsx";
 import AdminHomePage from "./pages/AdminHomePage.jsx";
 import UserManagement from "./components/Admin/UserManagement.jsx";
 import ProductManangement from "./components/Admin/ProductManangement.jsx";
+import EditProductPage from "./components/Admin/EditProductPage.jsx";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route index element={<AdminHomePage />} />
           <Route path="users" element={<UserManagement />} />
           <Route path="products" element={<ProductManangement />} />
+          <Route path="products/:id/edit" element={<EditProductPage />} />
         </Route>
       </Routes>
     </div>
