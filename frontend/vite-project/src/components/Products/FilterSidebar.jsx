@@ -11,10 +11,10 @@ function FilterSidebar() {
     size: [],
     material: [],
     brand: [],
-    minPrice: 100,
-    maxPrice: 1000,
+    minPrice: 0,
+    maxPrice: 100,
   });
-  const [priceRange, setPriceRange] = useState([100, 1000]);
+  const [priceRange, setPriceRange] = useState([0, 100]);
 
   const colors = [
     "Red",
@@ -59,11 +59,11 @@ function FilterSidebar() {
       size: params.size ? params.size.split(",") : [],
       material: params.material ? params.material.split(",") : [],
       brand: params.brand ? params.brand.split(",") : [],
-      minPrice: params.minPrice || 100,
-      maxPrice: params.maxPrice || 1000,
+      minPrice: params.minPrice || 0,
+      maxPrice: params.maxPrice || 100,
     });
 
-    setPriceRange([100, params.maxPrice || 1000]);
+    setPriceRange([0, params.maxPrice || 100]);
   }, [searchParams]);
 
   const handleFilterChange = (e) => {
@@ -72,7 +72,7 @@ function FilterSidebar() {
 
     if (type == "checkbox") {
       if (checked) {
-        newFilters[name] = [...FilterSidebar(newFilters[name] || [], value)];
+        newFilters[name] = [...(newFilters[name] || []), value];
       } else {
         newFilters[name] = newFilters[name].filter((item) => item !== value);
       }
@@ -81,6 +81,7 @@ function FilterSidebar() {
     }
 
     setFilters(newFilters);
+
     updateURLParams(newFilters);
   };
 
@@ -112,6 +113,7 @@ function FilterSidebar() {
               name="category"
               value={category}
               onChange={handleFilterChange}
+              checked={filters.category === category}
               className="mr-2 size-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{category}</span>
@@ -129,6 +131,7 @@ function FilterSidebar() {
               name="gender"
               value={gender}
               onChange={handleFilterChange}
+              checked={filters.gender === gender}
               className="mr-2 size-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{gender}</span>
@@ -146,7 +149,9 @@ function FilterSidebar() {
               name="color"
               value={color}
               onClick={handleFilterChange}
-              className="size-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105"
+              className={`size-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105 ${
+                filters.color.includes(color) ? "ring-2 ring-blue-500" : ""
+              }`}
               style={{ backgroundColor: color.toLocaleLowerCase() }}
             ></button>
           ))}
@@ -163,6 +168,7 @@ function FilterSidebar() {
               name="size"
               value={size}
               onChange={handleFilterChange}
+              checked={filters.size && filters.size.includes(size)}
               className="mr-2 size-4 text-blue-500 focus:ring-blue-400 border-green-300"
             />
             <span className="text-gray-700">{size}</span>
@@ -180,6 +186,7 @@ function FilterSidebar() {
               name="material"
               value={material}
               onChange={handleFilterChange}
+              checked={filters.material && filters.material.includes(material)}
               className="mr-2 material-4 text-blue-500 focus:ring-blue-400 border-green-300"
             />
             <span className="text-gray-700">{material}</span>
@@ -197,6 +204,7 @@ function FilterSidebar() {
               name="brand"
               value={brand}
               onChange={handleFilterChange}
+              checked={filters.brand && filters.brand.includes(brand)}
               className="mr-2 brand-4 text-blue-500 focus:ring-blue-400 border-green-300"
             />
             <span className="text-gray-700">{brand}</span>
@@ -212,12 +220,12 @@ function FilterSidebar() {
         <input
           type="range"
           name="priceRange"
-          min={100}
-          max={1000}
+          min={0}
+          max={100}
           className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
         />
         <div className="flex justify-between text-gray-600 mt-2">
-          <span>$100</span>
+          <span>$0</span>
           <span>${priceRange[1]}</span>
         </div>
       </div>
