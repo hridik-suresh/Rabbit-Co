@@ -112,7 +112,8 @@ function NewArrivals() {
       setCanScrollLeft(container.scrollLeft > 0);
       const tollerance = 1; // Small tolerance to account for floating point precision
       setCanScrollRight(
-        container.scrollWidth > container.clientWidth + container.scrollLeft + tollerance
+        container.scrollWidth >
+          container.clientWidth + container.scrollLeft + tollerance
       );
     }
   };
@@ -175,17 +176,19 @@ function NewArrivals() {
             key={product._id}
             className="min-w-full sm:min-w-[50%] lg:min-w-[30%] relative"
           >
-            <img
-              src={product.image[0].url}
-              alt={product.image[0].alt}
-              className="w-full h-[500px] object-cover rounded-lg"
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-opacity-50 backdrop-blur-md text-white rounded-b-lg p-4">
-              <Link to={`/products/${product._id}`} className="block">
-                <h4 className="font-medium">{product.name}</h4>
-                <p className="mt-1">{product.price}</p>
-              </Link>
-            </div>
+            <Link to={`/products/${product._id}`} className="block">
+              <img
+                src={product.image[0].url}
+                alt={product.image[0].alt}
+                className="w-full h-[500px] object-cover rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-opacity-50 backdrop-blur-md text-white rounded-b-lg p-4">
+                <div className="block">
+                  <h4 className="font-medium">{product.name}</h4>
+                  <p className="mt-1">{product.price}</p>
+                </div>
+              </div>
+            </Link>
           </div>
         ))}
       </div>
