@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PayPalButton from "./PayPalButton";
 
 const cart = {
   products: [
@@ -36,7 +37,12 @@ function Checkout() {
 
   const handleCreateCheckout = (e) => {
     e.preventDefault();
-    setCheckoutId(123);
+    setCheckoutId(123); //DUMMy ID to simulate checkout creation
+  };
+
+  const handlePaymentSuccess = (details) => {
+    console.log("Payment Successful!", details);
+    navigate("/order-confirmation");
   };
 
   return (
@@ -175,8 +181,15 @@ function Checkout() {
               </button>
             ) : (
               <div>
-                <h3 className="text-lg mb-4">Pay with Paypal</h3>
-                {/* {Paypal Component} */}
+                {/* <h3 className="text-lg mb-4">Pay with Paypal</h3> */}
+                <PayPalButton
+                  amount={100}
+                  onSuccess={handlePaymentSuccess}
+                  onError={(err) => {
+                    alert("Payment failed. Try again.");
+                    console.error(err);
+                  }}
+                />
               </div>
             )}
           </div>
@@ -209,7 +222,7 @@ function Checkout() {
         </div>
         <div className="flex justify-between items-center text-lg mb-4">
           <p>Subtotal</p>
-          <p>${ cart.totalPrice?.toLocaleString()}</p>
+          <p>${cart.totalPrice?.toLocaleString()}</p>
         </div>
         <div className="flex justify-between items-center text-lg">
           <p>Shipping</p>
