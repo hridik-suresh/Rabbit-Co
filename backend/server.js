@@ -1,11 +1,19 @@
 const express =require('express');
 const app= express();
 const cors =require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
+const connectDB = require('./config/db');
+
+
+// Connect to MongoDB
+connectDB();
 
 app.use(cors());
 app.use(express.json());
 
- const PORT = 5000;
+
+ const PORT = process.env.PORT || 8080;
 
  app.get('/', (req, res)=>{
     res.send("Hello World, Rabbit is here!");
