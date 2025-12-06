@@ -4,6 +4,7 @@ const cors =require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
 const connectDB = require('./config/db');
+const userRoutes = require('./routes/userRoutes')
 
 
 // Connect to MongoDB
@@ -18,6 +19,9 @@ app.use(express.json());
  app.get('/', (req, res)=>{
     res.send("Hello World, Rabbit is here!");
  })
+
+ //API Routes
+ app.use("/api/users", userRoutes);
 
 
  app.listen(PORT, ()=>{
