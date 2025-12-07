@@ -223,12 +223,11 @@ router.get("/", async (req, res) => {
       }
     }
 
-   //Fetch products and apply sorting and limit.
+    //Fetch products and apply sorting and limit.
     const products = await Product.find(query)
       .sort(sort)
       .limit(Number(limit) || 0);
     res.json(products);
-
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
@@ -240,12 +239,27 @@ router.get("/", async (req, res) => {
 //@access Public
 router.get("/best-sellers", async (req, res) => {
   try {
-    const bestSellers = await Product.findOne().sort({rating: -1});
+    const bestSellers = await Product.findOne().sort({ rating: -1 });
 
     if (!bestSellers) {
-      return res.status(404).json({ message: "No best-selling products found" });
+      return res
+        .status(404)
+        .json({ message: "No best-selling products found" });
     }
     res.json(bestSellers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+
+//@route GET /api/products/new-arrivals
+//@desc Get newly added products
+//@access Public
+router.get("/new-arrivals", async (req, res) => {
+  try {
+    const newArrivals = await Product.find().sort({ createdAt: -1 }).limit(10);
+    res.json(newArrivals);
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
@@ -267,7 +281,6 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
 
 //@route GET /api/products/similar/:id
 //@desc Get similar products by category and gender
