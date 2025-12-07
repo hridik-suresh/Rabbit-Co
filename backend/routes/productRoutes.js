@@ -235,6 +235,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+//@route GET /api/products/best-sellers
+//@desc Get best-selling products
+//@access Public
+router.get("/best-sellers", async (req, res) => {
+  try {
+    const bestSellers = await Product.findOne().sort({rating: -1});
+
+    if (!bestSellers) {
+      return res.status(404).json({ message: "No best-selling products found" });
+    }
+    res.json(bestSellers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+
 //@route GET /api/products/:id
 //@desc Get product by ID
 //@access Public
