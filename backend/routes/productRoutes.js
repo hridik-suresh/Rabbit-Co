@@ -251,4 +251,26 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+
+//@route GET /api/products/similar/:id
+//@desc Get similar products by category and gender
+//@access Public
+router.get("/similar/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    const similarProducts = await Product.find({
+      category: product.category,
+      gender: product.gender,
+      _id: { $ne: product._id },
+    }).limit(4);
+    res.json(similarProducts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
