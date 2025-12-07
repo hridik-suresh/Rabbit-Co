@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes')
+const productRoutes = require('./routes/productRoutes')
 
 
 // Connect to MongoDB
@@ -22,6 +23,8 @@ app.use(express.json());
 
  //API Routes
  app.use("/api/users", userRoutes);
+ 
+ app.use("/api/products", productRoutes);
 
 
  app.listen(PORT, ()=>{
