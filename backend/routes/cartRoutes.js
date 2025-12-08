@@ -4,6 +4,7 @@ const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const { protect } = require("../middleware/authMiddleware");
 const { watch } = require("../models/User");
+const { route } = require("./productRoutes");
 
 //Helper function to get a cart by guestId or userId
 const getCart = async (guestId, userId) => {
@@ -14,7 +15,6 @@ const getCart = async (guestId, userId) => {
   }
   return null;
 };
-
 
 //@route POST /api/cart
 //@desc Add a product to the cart for a guest user or a loggedin user
@@ -88,3 +88,49 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
+//@route PUT /api/cart
+//@desc Update product quantity in the cart for guest or the logged-in user
+//@access Public
+router.put("/", async (req, res) => {
+  const { productId, quantity, size, color, guestId, userId } = req.body;
+
+  try {
+    let cart = await getCart(guestId, userId);
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+    const productIndex = cart.products.findIndex(
+      (item) =>
+        item.productId.toString() === productId &&
+        item.size === size &&
+        item.color === color
+    );
+
+    if (productIndex > -1) {
+      //Update the quantity
+      if (quantity > 0) {
+        cart.products[productIndex].quantity = quantity;
+      } else {
+        //Remove the product if quantity is zero or less
+        cart.products.splice(productIndex, 1);
+      }
+
+      //Recalculate total price
+      cart.totalPrice = cart.products.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
+      await cart.save();
+      res.status(200).json(cart);
+    } else {
+      res.status(404).json({ message: "Product not found in cart" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+module.exports = router;
