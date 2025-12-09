@@ -7,7 +7,8 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
-const checkRoutes = require("./routes/checkoutRoutes");
+const checkoutRoutes = require("./routes/checkoutRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 // Connect to MongoDB
 connectDB();
@@ -28,7 +29,9 @@ app.use("/api/products", productRoutes);
 
 app.use("/api/cart", cartRoutes);
 
-app.use("/api/checkout", checkRoutes);
+app.use("/api/checkout", checkoutRoutes);
+
+app.use("/api/orders", orderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on the port , http://localhost:${PORT}`);
