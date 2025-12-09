@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
     req.body;
 
   if (!checkOutItems || checkOutItems.length === 0) {
-    return res.status(400).json({ message: "No items in chechout" });
+    return res.status(400).json({ message: "No items in checkout" });
   }
 
   try {
@@ -33,5 +33,35 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.error("Error creating checkout session:", error);
     res.status(500).json({ message: "server error" });
+  }
+});
+
+//@route PUT /api/checkout/:id/pay
+//@desc Update checkout to mark as paid after successful payment
+//@access private
+router.put("/:id/pay", async (req, res) => {
+  const { paymentStatus, paymentDetails } = req.body;
+
+  try {
+    const checkout = await Checkout.findById(req.params.id);
+
+    if (!checkout) {
+      return res.status(404).json({ message: "Checkout not found" });
+    }
+
+    if (paymentStatus == "paid") {
+      checkout.isPaid = true;
+      checkout.paymentStatus = paymentStatus;
+      checkout.paymentDetails = paymentDetails;
+      checkout.paidAt = Date.now();
+      await checkout.save();
+
+      res.status(200).json(checkout);
+    } else {
+      res.status(400).json({ message: "Invalid payment status" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Srever Error" });
   }
 });
