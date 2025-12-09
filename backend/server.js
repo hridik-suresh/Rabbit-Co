@@ -1,13 +1,13 @@
-const express =require('express');
-const app= express();
-const cors =require('cors');
-const dotenv = require('dotenv');
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const dotenv = require("dotenv");
 dotenv.config();
-const connectDB = require('./config/db');
-const userRoutes = require('./routes/userRoutes')
-const productRoutes = require('./routes/productRoutes')
-const cartRoutes = require('./routes/cartRoutes')
-
+const connectDB = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
+const productRoutes = require("./routes/productRoutes");
+const cartRoutes = require("./routes/cartRoutes");
+const checkRoutes = require("./routes/checkoutRoutes");
 
 // Connect to MongoDB
 connectDB();
@@ -15,20 +15,21 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+const PORT = process.env.PORT || 8080;
 
- const PORT = process.env.PORT || 8080;
+app.get("/", (req, res) => {
+  res.send("Hello World, Rabbit is here!");
+});
 
- app.get('/', (req, res)=>{
-    res.send("Hello World, Rabbit is here!");
- })
+//API Routes
+app.use("/api/users", userRoutes);
 
- //API Routes
- app.use("/api/users", userRoutes);
- 
- app.use("/api/products", productRoutes);
+app.use("/api/products", productRoutes);
 
- app.use("/api/cart", cartRoutes);
+app.use("/api/cart", cartRoutes);
 
- app.listen(PORT, ()=>{
-    console.log(`Server is running on the port , http://localhost:${PORT}`);
- })
+app.use("/api/checkout", checkRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on the port , http://localhost:${PORT}`);
+});
