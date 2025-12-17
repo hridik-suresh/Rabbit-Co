@@ -10,6 +10,7 @@ const cartRoutes = require("./routes/cartRoutes");
 const checkoutRoutes = require("./routes/checkoutRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
+const subscriberRoutes = require("./routes/subscriberRoute");
 
 // Connect to MongoDB
 connectDB();
@@ -35,6 +36,8 @@ app.use("/api/checkout", checkoutRoutes);
 app.use("/api/orders", orderRoutes);
 
 app.use("/api/upload", uploadRoutes);
+
+app.use("/api", subscriberRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on the port , http://localhost:${PORT}`);
