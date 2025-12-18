@@ -113,4 +113,29 @@ router.put("/:id", protect, async (req, res) => {
   }
 });
 
+//@route DELETE /api/admin/users/:id
+//@desc Delete user (Admin only)
+//@access Private
+router.delete("/:id", protect, async (req, res) => {
+  if (req.user && req.user.role === "admin") {
+    const { id } = req.params;
+
+    try {
+      const user = await User.findById(id);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      await User.findByIdAndDelete(id);
+
+      res.json({ message: "User deleted successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Server Error");
+    }
+  } else {
+    res.status(403).json({ message: "Access denied" });
+  }
+});
+
 module.exports = router;
