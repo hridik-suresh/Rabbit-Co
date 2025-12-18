@@ -67,4 +67,50 @@ router.post("/", protect, async (req, res) => {
   }
 });
 
+//@route PUT /api/admin/users/:id
+//@desc Update user name, email, and role (Admin only)
+//@access Private
+router.put("/:id", protect, async (req, res) => {
+  if (req.user && req.user.role === "admin") {
+    const { id } = req.params;
+    const { name, email, role } = req.body;
+
+    try {
+      const user = await User.findById(id);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Check if the new email is already taken by another user
+      if (email && email !== user.email) {
+        const emailExists = await User.findOne({ email });
+        if (emailExists) {
+          return res.status(400).json({ message: "Email already in use" });
+        }
+      }
+
+      user.name = name || user.name;
+      user.email = email || user.email;
+      user.role = role || user.role;
+
+      await user.save();
+
+      res.json({
+        message: "User updated successfully",
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Server Error");
+    }
+  } else {
+    res.status(403).json({ message: "Access denied" });
+  }
+});
+
 module.exports = router;
