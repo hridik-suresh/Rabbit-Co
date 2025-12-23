@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import login from "../assets/login.webp";
+import register from "../assets/register.webp";
+import { registerUser } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle registration logic here
+    dispatch(registerUser({ name, email, password }));
   };
 
   return (
@@ -77,7 +80,7 @@ function Register() {
       <div className="hidden md:block md:w-1/2 bg-gray-800">
         <div className="h-full flex flex-col justify-center items-center">
           <img
-            src={login}
+            src={register}
             alt="Login"
             className="h-[750px] w-full object-cover"
           />
