@@ -42,7 +42,6 @@ app.use("/api/upload", uploadRoutes);
 
 app.use("/api", subscriberRoutes);
 
-
 // Admin Routes
 app.use("/api/admin/users", adminRoutes);
 
