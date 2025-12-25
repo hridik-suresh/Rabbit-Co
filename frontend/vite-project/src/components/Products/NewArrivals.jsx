@@ -1,137 +1,83 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import axios from "axios";
 
 function NewArrivals() {
   const scrollRef = useRef(null);
-  // const [isDragging, setIsDragging] = useState(false);
-  // const [startX, setStartX] = useState(0);
-  // const [scrollLeft, setScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [newArrivals, setNewArrivals] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const newArrivals = [
-    {
-      _id: 1,
-      name: "Product 1",
-      image: [
-        {
-          url: "https://picsum.photos/500/500?random=1",
-          alt: "Product 1 Image",
-        },
-      ],
-      price: "$49.99",
-    },
-    {
-      _id: 2,
-      name: "Product 2",
-      image: [
-        {
-          url: "https://picsum.photos/500/500?random=2",
-          alt: "Product 2 Image",
-        },
-      ],
-      price: "$29.99",
-    },
-    {
-      _id: 3,
-      name: "Product 3",
-      image: [
-        {
-          url: "https://picsum.photos/500/500?random=3",
-          alt: "Product 3 Image",
-        },
-      ],
-      price: "$39.99",
-    },
-    {
-      _id: 4,
-      name: "Product 4",
-      image: [
-        {
-          url: "https://picsum.photos/500/500?random=4",
-          alt: "Product 4 Image",
-        },
-      ],
-      price: "$59.99",
-    },
-    {
-      _id: 5,
-      name: "Product 5",
-      image: [
-        {
-          url: "https://picsum.photos/500/500?random=5",
-          alt: "Product 5 Image",
-        },
-      ],
-      price: "$69.99",
-    },
-    {
-      _id: 6,
-      name: "Product 6",
-      image: [
-        {
-          url: "https://picsum.photos/500/500?random=6",
-          alt: "Product 6 Image",
-        },
-      ],
-      price: "$79.99",
-    },
-    {
-      _id: 7,
-      name: "Product 7",
-      image: [
-        {
-          url: "https://picsum.photos/500/500?random=7",
-          alt: "Product 7 Image",
-        },
-      ],
-      price: "$89.99",
-    },
-    {
-      _id: 8,
-      name: "Product 8",
-      image: [
-        {
-          url: "https://picsum.photos/500/500?random=8",
-          alt: "Product 8 Image",
-        },
-      ],
-      price: "$99.99",
-    },
-  ];
+  // Fetch New Arrivals from API
+  useEffect(() => {
+    const fetchNewArrivals = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/products/new-arrivals`
+        );
+        // Safety check to ensure we always have an array
+        setNewArrivals(Array.isArray(response.data) ? response.data : []);
+      } catch (error) {
+        console.error("Error fetching new arrivals:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const scroll = (direction) => {
-    const container = scrollRef.current;
-    const scrollAmount = direction === "left" ? -500 : 500;
-    container.scrollBy({ left: scrollAmount, behavior: "smooth" });
-  };
-  const upadateScrollButtons = () => {
+    fetchNewArrivals();
+  }, []);
+
+  // Update button states based on scroll position
+  const updateScrollButtons = () => {
     const container = scrollRef.current;
     if (container) {
-      setCanScrollLeft(container.scrollLeft > 0);
-      const tollerance = 1; // Small tolerance to account for floating point precision
-      setCanScrollRight(
-        container.scrollWidth >
-          container.clientWidth + container.scrollLeft + tollerance
-      );
+      const left = container.scrollLeft;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+
+      setCanScrollLeft(left > 5); // 5px buffer for better UX
+      setCanScrollRight(left < maxScroll - 5);
     }
   };
-  const handleWheel = (event) => {
-    event.preventDefault();
-    scrollRef.current.scrollLeft += event.deltaY;
-  };
 
+  // Attach and cleanup scroll listener
   useEffect(() => {
     const container = scrollRef.current;
     if (container) {
-      container.addEventListener("scroll", upadateScrollButtons);
-      container.addEventListener("wheel", handleWheel);
+      container.addEventListener("scroll", updateScrollButtons);
     }
-  }, []);
+
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", updateScrollButtons);
+      }
+    };
+  }, [newArrivals]); // Re-run if product count changes
+
+  const scroll = (direction) => {
+    const container = scrollRef.current;
+    if (container) {
+      // Scroll by the width of the container (one "page")
+      const scrollAmount =
+        direction === "left" ? -container.clientWidth : container.clientWidth;
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center py-20 text-gray-500">
+        Loading New Arrivals...
+      </div>
+    );
+  }
+
+  // If no products found, don't render the section at all
+  if (newArrivals.length === 0) return null;
 
   return (
-    <section className="py-16 px-10">
+    <section className="py-16 px-4 sm:px-10">
       <div className="container mx-auto text-center mb-10 relative">
         <h2 className="text-3xl font-bold mb-4">New Arrivals</h2>
         <p className="text-lg text-gray-600 mb-8">
@@ -139,54 +85,60 @@ function NewArrivals() {
           keep your wardrobe up-to-date.
         </p>
 
-        {/*scroll btn*/}
-        <div className="absolute right-0 bottom-[-30px] flex space-x-2">
+        {/* Navigation Buttons */}
+        <div className="absolute right-0 bottom-[-30px] flex space-x-2 z-10">
           <button
             onClick={() => scroll("left")}
             disabled={!canScrollLeft}
-            className={`p-2 rounded border ${
+            className={`p-2 rounded border transition-all ${
               canScrollLeft
-                ? "bg-white text-black"
-                : "bg-gray-200 text-gray-400"
+                ? "bg-white text-black shadow-md hover:bg-gray-50"
+                : "bg-gray-100 text-gray-300 cursor-not-allowed"
             }`}
           >
-            <FiChevronLeft />
+            <FiChevronLeft size={24} />
           </button>
           <button
             onClick={() => scroll("right")}
             disabled={!canScrollRight}
-            className={`p-2 rounded border ${
+            className={`p-2 rounded border transition-all ${
               canScrollRight
-                ? "bg-white text-black"
-                : "bg-gray-200 text-gray-400"
+                ? "bg-white text-black shadow-md hover:bg-gray-50"
+                : "bg-gray-100 text-gray-300 cursor-not-allowed"
             }`}
           >
-            <FiChevronRight />
+            <FiChevronRight size={24} />
           </button>
         </div>
       </div>
 
-      {/*products grid*/}
+      {/* Horizontal Product Container */}
       <div
         ref={scrollRef}
-        className="container mx-auto overflow-x-auto flex space-x-4 relative"
+        className="container mx-auto overflow-x-auto flex space-x-6 relative no-scrollbar pb-4"
+        style={{ scrollSnapType: "x mandatory" }}
       >
         {newArrivals.map((product) => (
           <div
             key={product._id}
-            className="min-w-full sm:min-w-[50%] lg:min-w-[30%] relative"
+            className="min-w-[80%] sm:min-w-[45%] lg:min-w-[30%] relative snap-start"
           >
-            <Link to={`/products/${product._id}`} className="block">
-              <img
-                src={product.image[0].url}
-                alt={product.image[0].alt}
-                className="w-full h-[500px] object-cover rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-opacity-50 backdrop-blur-md text-white rounded-b-lg p-4">
-                <div className="block">
-                  <h4 className="font-medium">{product.name}</h4>
-                  <p className="mt-1">{product.price}</p>
-                </div>
+            <Link to={`/products/${product._id}`} className="block group">
+              <div className="overflow-hidden rounded-lg">
+                <img
+                  src={
+                    product.images?.[0]?.url ||
+                    product.image?.[0]?.url ||
+                    "https://via.placeholder.com/500"
+                  }
+                  alt={product.name}
+                  className="w-full h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+
+              <div className="absolute bottom-0 left-0 right-0 bg-black/30 backdrop-blur-md text-white rounded-b-lg p-4">
+                <h4 className="font-medium text-lg">{product.name}</h4>
+                <p className="mt-1">${product.price}</p>
               </div>
             </Link>
           </div>
