@@ -5,99 +5,41 @@ import ProductDetails from "../components/Products/ProductDetails";
 import ProductGrid from "../components/Products/ProductGrid";
 import FeaturedCollection from "../components/Products/FeaturedCollection";
 import FeaturedSection from "../components/Products/FeaturedSection";
-
-const placeholderProducts = [
-  {
-    _id: 11,
-    name: "Product 11",
-    image: [
-      {
-        url: "https://picsum.photos/500/500?random=11",
-        alt: "Product 11 Image",
-      },
-    ],
-    price: "$49.99",
-  },
-  {
-    _id: 12,
-    name: "Product 12",
-    image: [
-      {
-        url: "https://picsum.photos/500/500?random=12",
-        alt: "Product 12 Image",
-      },
-    ],
-    price: "$59.99",
-  },
-  {
-    _id: 13,
-    name: "Product 13",
-    image: [
-      {
-        url: "https://picsum.photos/500/500?random=13",
-        alt: "Product 13 Image",
-      },
-    ],
-    price: "$69.99",
-  },
-  {
-    _id: 14,
-    name: "Product 14",
-    image: [
-      {
-        url: "https://picsum.photos/500/500?random=14",
-        alt: "Product 14 Image",
-      },
-    ],
-    price: "$79.99",
-  },
-  {
-    _id: 15,
-    name: "Product 15",
-    image: [
-      {
-        url: "https://picsum.photos/500/500?random=15",
-        alt: "Product 15 Image",
-      },
-    ],
-    price: "$89.99",
-  },
-  {
-    _id: 16,
-    name: "Product 16",
-    image: [
-      {
-        url: "https://picsum.photos/500/500?random=16",
-        alt: "Product 16 Image",
-      },
-    ],
-    price: "$99.99",
-  },
-  {
-    _id: 17,
-    name: "Product 17",
-    image: [
-      {
-        url: "https://picsum.photos/500/500?random=17",
-        alt: "Product 17 Image",
-      },
-    ],
-    price: "$109.99",
-  },
-  {
-    _id: 18,
-    name: "Product 18",
-    image: [
-      {
-        url: "https://picsum.photos/500/500?random=18",
-        alt: "Product 18 Image",
-      },
-    ],
-    price: "$119.99",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchProductsByFilters } from "../redux/slices/productsSlice";
+import axios from "axios";
+import { useState } from "react";
 
 function Home() {
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state) => state.products);
+  const [bestSellerProducts, setBestSellerProducts] = useState(null);
+
+  useEffect(() => {
+    // Filter best seller products for a specific collection
+    dispatch(
+      fetchProductsByFilters({
+        gender: "Women",
+        category: "Bottom Wear",
+        limit: 8,
+      })
+    );
+    //Fetch best seller products
+    const fetchBestSeller = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/products/best-sellers`
+        );
+        setBestSellerProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching best seller products:", error);
+      }
+    };
+
+    fetchBestSeller();
+  }, [dispatch]);
+
   return (
     <div>
       <Hero />
@@ -106,13 +48,17 @@ function Home() {
 
       {/* {Best Seller} */}
       <h2 className="text-3xl text-center font-bold mb-4">Best Seller</h2>
-      <ProductDetails />
+      {bestSellerProducts ? (
+        <ProductDetails productId={bestSellerProducts._id} />
+      ) : (
+        <p className="text-center">Loading best seller products...</p>
+      )}
 
       <div className="container px-7 mb-10 mx-auto">
         <h2 className="text-3xl text-center font-bold mb-4">
           Top Wears for Women
         </h2>
-        <ProductGrid products={placeholderProducts} />
+        <ProductGrid products={products} loading={loading} error={error} />
       </div>
 
       <FeaturedCollection />
